@@ -1,0 +1,1 @@
+# stm32h573i-discovery-bsp
