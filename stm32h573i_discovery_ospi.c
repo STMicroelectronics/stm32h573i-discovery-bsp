@@ -523,7 +523,7 @@ int32_t BSP_OSPI_NOR_Write(uint32_t Instance, const uint8_t *pData, uint32_t Wri
   * @brief  Erases the specified block of the OSPI memory.
   * @param  Instance     OSPI instance
   * @param  BlockAddress Block address to erase
-  * @param  BlockSize    Erase Block size
+  * @param  BlockSize    Erase Block size: MX25LM51245G_ERASE_4K or MX25LM51245G_ERASE_64K
   * @retval BSP status
   */
 int32_t BSP_OSPI_NOR_Erase_Block(uint32_t Instance, uint32_t BlockAddress, BSP_OSPI_NOR_Erase_t BlockSize)
@@ -591,9 +591,8 @@ int32_t BSP_OSPI_NOR_Erase_Chip(uint32_t Instance)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }/* Issue Chip erase command */
-    else if (MX25LM51245G_BlockErase(&hospi_nor[Instance], Ospi_Nor_Ctx[Instance].InterfaceMode,
-                                     Ospi_Nor_Ctx[Instance].TransferRate, MX25LM51245G_4BYTES_SIZE, 0,
-                                     MX25LM51245G_ERASE_BULK) != MX25LM51245G_OK)
+    else if (MX25LM51245G_ChipErase(&hospi_nor[Instance], Ospi_Nor_Ctx[Instance].InterfaceMode,
+                                     Ospi_Nor_Ctx[Instance].TransferRate) != MX25LM51245G_OK)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
