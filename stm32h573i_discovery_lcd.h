@@ -22,7 +22,7 @@
 #define STM32H573I_DK_LCD_H
 
 #ifdef __cplusplus
- extern "C" {
+extern "C" {
 #endif
 
 /* Includes ------------------------------------------------------------------*/
@@ -51,8 +51,8 @@
 
 #define  LCD_ORIENTATION_LANDSCAPE_ROT180  0U /*!< Landscape orientation choice of LCD screen */
 #define  LCD_ORIENTATION_PORTRAIT_ROT180   1U /*!< Portrait orientation choice of LCD screen  */
-#define  LCD_ORIENTATION_LANDSCAPE         2U /*!< Landscape rotated 180° orientation choice of LCD screen */
-#define  LCD_ORIENTATION_PORTRAIT          3U /*!< Portrait rotated 180° orientation choice of LCD screen */
+#define  LCD_ORIENTATION_LANDSCAPE         2U /*!< Landscape rotated 180 degree orientation choice of LCD screen */
+#define  LCD_ORIENTATION_PORTRAIT          3U /*!< Portrait rotated 180 degree orientation choice of LCD screen */
 
 
 /**
@@ -107,7 +107,7 @@ typedef struct
 {
   void (* pMspInitCb)(SRAM_HandleTypeDef *);
   void (* pMspDeInitCb)(SRAM_HandleTypeDef *);
-}BSP_LCD_Cb_t;
+} BSP_LCD_Cb_t;
 #endif /* (USE_HAL_SRAM_REGISTER_CALLBACKS == 1) */
 
 /**
@@ -147,17 +147,19 @@ int32_t BSP_LCD_GetOrientation(uint32_t Instance, uint32_t *Orientation);
 /* LCD generic APIs: Draw operations. This list of APIs is required for
    lcd gfx utilities */
 int32_t BSP_LCD_DrawBitmap(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint8_t *pBmp);
-int32_t BSP_LCD_FillRGBRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint8_t *pData, uint32_t Width, uint32_t Height);
+int32_t BSP_LCD_FillRGBRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint8_t *pData, uint32_t Width,
+                            uint32_t Height);
 int32_t BSP_LCD_DrawHLine(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Length, uint32_t Color);
 int32_t BSP_LCD_DrawVLine(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Length, uint32_t Color);
-int32_t BSP_LCD_FillRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Width, uint32_t Height, uint32_t Color);
+int32_t BSP_LCD_FillRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Width, uint32_t Height,
+                         uint32_t Color);
 int32_t BSP_LCD_ReadPixel(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t *Color);
 int32_t BSP_LCD_WritePixel(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Color);
 
 HAL_StatusTypeDef MX_FMC_BANK1_Init(SRAM_HandleTypeDef *hsram);
 #if (USE_HAL_SRAM_REGISTER_CALLBACKS == 1)
-int32_t BSP_LCD_RegisterDefaultMspCallbacks (uint32_t Instance);
-int32_t BSP_LCD_RegisterMspCallbacks (uint32_t Instance, BSP_LCD_Cb_t *CallBacks);
+int32_t BSP_LCD_RegisterDefaultMspCallbacks(uint32_t Instance);
+int32_t BSP_LCD_RegisterMspCallbacks(uint32_t Instance, BSP_LCD_Cb_t *CallBacks);
 #endif /* (USE_HAL_SRAM_REGISTER_CALLBACKS == 1)  */
 /**
   * @}

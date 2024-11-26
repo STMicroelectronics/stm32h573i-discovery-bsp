@@ -842,7 +842,7 @@ static void SD_EXTI_Callback(void)
 static void SD_MspInit(SD_HandleTypeDef *hsd)
 {
   GPIO_InitTypeDef gpioinitstruct = {0};
-  
+
   if (hsd == &hsd_sdmmc[0])
   {
     RCC_PeriphCLKInitTypeDef PeriphClkInitStruct = {0};

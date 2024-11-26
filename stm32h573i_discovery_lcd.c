@@ -141,7 +141,7 @@ int32_t BSP_LCD_Init(uint32_t Instance, uint32_t Orientation)
 {
   int32_t ret;
 
-  if((Orientation > LCD_ORIENTATION_PORTRAIT) || (Instance >= LCD_INSTANCES_NBR))
+  if ((Orientation > LCD_ORIENTATION_PORTRAIT) || (Instance >= LCD_INSTANCES_NBR))
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -154,7 +154,7 @@ int32_t BSP_LCD_Init(uint32_t Instance, uint32_t Orientation)
     /* Initialize LCD special pins GPIOs */
     ST7789H2_PowerUp();
 
-    if(ST7789H2_Probe(Orientation) != BSP_ERROR_NONE)
+    if (ST7789H2_Probe(Orientation) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_UNKNOWN_COMPONENT;
     }
@@ -176,7 +176,7 @@ int32_t BSP_LCD_DeInit(uint32_t Instance)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -185,7 +185,7 @@ int32_t BSP_LCD_DeInit(uint32_t Instance)
     ret = BSP_ERROR_COMPONENT_FAILURE;
   }
   else
-  {  
+  {
     ST7789H2_PowerDown();
 
 #if (USE_HAL_SRAM_REGISTER_CALLBACKS == 0)
@@ -250,7 +250,7 @@ int32_t BSP_LCD_GetPixelFormat(uint32_t Instance, uint32_t *PixelFormat)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -274,13 +274,13 @@ int32_t BSP_LCD_GetXSize(uint32_t Instance, uint32_t *XSize)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
   else
   {
-    if(Lcd_Drv[Instance]->GetXSize(Lcd_CompObj[Instance], XSize) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->GetXSize(Lcd_CompObj[Instance], XSize) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -299,13 +299,13 @@ int32_t BSP_LCD_GetYSize(uint32_t Instance, uint32_t *YSize)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
   else
   {
-    if(Lcd_Drv[Instance]->GetYSize(Lcd_CompObj[Instance], YSize) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->GetYSize(Lcd_CompObj[Instance], YSize) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -326,13 +326,13 @@ int32_t BSP_LCD_ReadPixel(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint3
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->GetPixel != NULL)
+  else if (Lcd_Drv[Instance]->GetPixel != NULL)
   {
-    if(Lcd_Drv[Instance]->GetPixel(Lcd_CompObj[Instance], Xpos, Ypos, Color) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->GetPixel(Lcd_CompObj[Instance], Xpos, Ypos, Color) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -357,13 +357,13 @@ int32_t BSP_LCD_WritePixel(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->SetPixel != NULL)
+  else if (Lcd_Drv[Instance]->SetPixel != NULL)
   {
-    if(Lcd_Drv[Instance]->SetPixel(Lcd_CompObj[Instance], Xpos, Ypos, Color) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->SetPixel(Lcd_CompObj[Instance], Xpos, Ypos, Color) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -389,13 +389,13 @@ int32_t BSP_LCD_DrawHLine(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint3
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->DrawHLine != NULL)
+  else if (Lcd_Drv[Instance]->DrawHLine != NULL)
   {
-    if(Lcd_Drv[Instance]->DrawHLine(Lcd_CompObj[Instance], Xpos, Ypos, Length, Color) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->DrawHLine(Lcd_CompObj[Instance], Xpos, Ypos, Length, Color) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -421,13 +421,13 @@ int32_t BSP_LCD_DrawVLine(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint3
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->DrawVLine != NULL)
+  else if (Lcd_Drv[Instance]->DrawVLine != NULL)
   {
-    if(Lcd_Drv[Instance]->DrawVLine(Lcd_CompObj[Instance], Xpos, Ypos, Length, Color) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->DrawVLine(Lcd_CompObj[Instance], Xpos, Ypos, Length, Color) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -452,13 +452,13 @@ int32_t BSP_LCD_DrawBitmap(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->DrawBitmap != NULL)
+  else if (Lcd_Drv[Instance]->DrawBitmap != NULL)
   {
-    if(Lcd_Drv[Instance]->DrawBitmap(Lcd_CompObj[Instance], Xpos, Ypos, pBmp) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->DrawBitmap(Lcd_CompObj[Instance], Xpos, Ypos, pBmp) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -481,17 +481,18 @@ int32_t BSP_LCD_DrawBitmap(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint
   * @param  Height Rectangle Height.
   * @retval BSP status.
   */
-int32_t BSP_LCD_FillRGBRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint8_t *pData, uint32_t Width, uint32_t Height)
+int32_t BSP_LCD_FillRGBRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint8_t *pData, uint32_t Width,
+                            uint32_t Height)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->FillRect != NULL)
+  else if (Lcd_Drv[Instance]->FillRect != NULL)
   {
-    if(Lcd_Drv[Instance]->FillRGBRect(Lcd_CompObj[Instance], Xpos, Ypos, pData, Width, Height) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->FillRGBRect(Lcd_CompObj[Instance], Xpos, Ypos, pData, Width, Height) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -514,17 +515,18 @@ int32_t BSP_LCD_FillRGBRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uin
   * @param  Color Pixel color in RGB mode (5-6-5)
   * @retval BSP status
   */
-int32_t BSP_LCD_FillRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Width, uint32_t Height, uint32_t Color)
+int32_t BSP_LCD_FillRect(uint32_t Instance, uint32_t Xpos, uint32_t Ypos, uint32_t Width, uint32_t Height,
+                         uint32_t Color)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->FillRect != NULL)
+  else if (Lcd_Drv[Instance]->FillRect != NULL)
   {
-    if(Lcd_Drv[Instance]->FillRect(Lcd_CompObj[Instance], Xpos, Ypos, Width, Height, Color) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->FillRect(Lcd_CompObj[Instance], Xpos, Ypos, Width, Height, Color) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -546,13 +548,13 @@ int32_t BSP_LCD_DisplayOn(uint32_t Instance)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->DisplayOn != NULL)
+  else if (Lcd_Drv[Instance]->DisplayOn != NULL)
   {
-    if(Lcd_Drv[Instance]->DisplayOn(Lcd_CompObj[Instance]) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->DisplayOn(Lcd_CompObj[Instance]) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -574,13 +576,13 @@ int32_t BSP_LCD_DisplayOff(uint32_t Instance)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->DisplayOff != NULL)
+  else if (Lcd_Drv[Instance]->DisplayOff != NULL)
   {
-    if(Lcd_Drv[Instance]->DisplayOff(Lcd_CompObj[Instance]) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->DisplayOff(Lcd_CompObj[Instance]) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -605,7 +607,7 @@ int32_t BSP_LCD_SetBrightness(uint32_t Instance, uint32_t Brightness)
   int32_t ret;
   UNUSED(Brightness);
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -628,7 +630,7 @@ int32_t BSP_LCD_GetBrightness(uint32_t Instance, const uint32_t *Brightness)
   int32_t ret;
   UNUSED(Brightness);
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -651,13 +653,13 @@ int32_t BSP_LCD_SetOrientation(uint32_t Instance, uint32_t Orientation)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->SetOrientation != NULL)
+  else if (Lcd_Drv[Instance]->SetOrientation != NULL)
   {
-    if(Lcd_Drv[Instance]->SetOrientation(Lcd_CompObj[Instance], Orientation) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->SetOrientation(Lcd_CompObj[Instance], Orientation) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -681,13 +683,13 @@ int32_t BSP_LCD_GetOrientation(uint32_t Instance, uint32_t *Orientation)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= LCD_INSTANCES_NBR)
+  if (Instance >= LCD_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
-  else if(Lcd_Drv[Instance]->GetOrientation != NULL)
+  else if (Lcd_Drv[Instance]->GetOrientation != NULL)
   {
-    if(Lcd_Drv[Instance]->GetOrientation(Lcd_CompObj[Instance], Orientation) != BSP_ERROR_NONE)
+    if (Lcd_Drv[Instance]->GetOrientation(Lcd_CompObj[Instance], Orientation) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -706,26 +708,26 @@ int32_t BSP_LCD_GetOrientation(uint32_t Instance, uint32_t *Orientation)
   * @param Instance      LCD Instance
   * @retval BSP status
   */
-int32_t BSP_LCD_RegisterDefaultMspCallbacks (uint32_t Instance)
+int32_t BSP_LCD_RegisterDefaultMspCallbacks(uint32_t Instance)
 {
   int32_t ret = BSP_ERROR_NONE;
 
   /* Check if the instance is supported */
-  if(Instance != 0UL)
+  if (Instance != 0UL)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
   else
   {
     /* Register MspInit/MspDeInit Callbacks */
-    if(HAL_SRAM_RegisterCallback(&hlcd_sram[Instance], HAL_SRAM_MSP_INIT_CB_ID, FMC_BANK1_MspInit) != HAL_OK)
+    if (HAL_SRAM_RegisterCallback(&hlcd_sram[Instance], HAL_SRAM_MSP_INIT_CB_ID, FMC_BANK1_MspInit) != HAL_OK)
     {
       ret = BSP_ERROR_PERIPH_FAILURE;
     }
-    else if(HAL_SRAM_RegisterCallback(&hlcd_sram[Instance], HAL_SRAM_MSP_DEINIT_CB_ID, FMC_BANK1_MspDeInit) != HAL_OK)
+    else if (HAL_SRAM_RegisterCallback(&hlcd_sram[Instance], HAL_SRAM_MSP_DEINIT_CB_ID, FMC_BANK1_MspDeInit) != HAL_OK)
     {
       ret = BSP_ERROR_PERIPH_FAILURE;
-    }    
+    }
     else
     {
       Lcd_Ctx[Instance].IsMspCallbacksValid = 1;
@@ -746,18 +748,19 @@ int32_t BSP_LCD_RegisterMspCallbacks(uint32_t Instance, BSP_LCD_Cb_t *CallBacks)
   int32_t ret = BSP_ERROR_NONE;
 
   /* Check if the instance is supported */
-  if(Instance != 0UL)
+  if (Instance != 0UL)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
   else
   {
     /* Register MspInit/MspDeInit Callbacks */
-    if(HAL_SRAM_RegisterCallback(&hlcd_sram[Instance], HAL_SRAM_MSP_INIT_CB_ID, CallBacks->pMspInitCb) != HAL_OK)
+    if (HAL_SRAM_RegisterCallback(&hlcd_sram[Instance], HAL_SRAM_MSP_INIT_CB_ID, CallBacks->pMspInitCb) != HAL_OK)
     {
       ret = BSP_ERROR_PERIPH_FAILURE;
     }
-    else if(HAL_SRAM_RegisterCallback(&hlcd_sram[Instance], HAL_SRAM_MSP_DEINIT_CB_ID, CallBacks->pMspDeInitCb) != HAL_OK)
+    else if (HAL_SRAM_RegisterCallback(&hlcd_sram[Instance], HAL_SRAM_MSP_DEINIT_CB_ID, CallBacks->pMspDeInitCb)
+             != HAL_OK)
     {
       ret = BSP_ERROR_PERIPH_FAILURE;
     }
@@ -879,7 +882,7 @@ static int32_t ST7789H2_Probe(uint32_t Orientation)
   {
     Lcd_CompObj[0] = &ST7789H2Obj;
     Lcd_Drv[0] = (LCD_Drv_t *) &ST7789H2_Driver;
-    
+
     if (Lcd_Drv[0]->Init(Lcd_CompObj[0], ST7789H2_FORMAT_RBG565, Orientation) < 0)
     {
       status = BSP_ERROR_COMPONENT_FAILURE;
@@ -916,11 +919,11 @@ static int32_t LCD_FMC_Init(void)
         status = BSP_ERROR_MSP_FAILURE;
       }
     }
-    if (status == BSP_ERROR_NONE)    
+    if (status == BSP_ERROR_NONE)
 #else
     /* Init the FMC Msp */
     FMC_BANK1_MspInit(&hlcd_sram[0]);
-#endif
+#endif /* (USE_HAL_SRAM_REGISTER_CALLBACKS == 1) */
     {
       if (MX_FMC_BANK1_Init(&hlcd_sram[0]) != HAL_OK)
       {
@@ -942,7 +945,7 @@ static int32_t LCD_FMC_DeInit(void)
 
 #if (USE_HAL_SRAM_REGISTER_CALLBACKS == 0)
   FMC_BANK1_MspDeInit(&hlcd_sram[0]);
-#endif
+#endif /* (USE_HAL_SRAM_REGISTER_CALLBACKS == 0) */
 
   /* De-Init the FMC */
   (void)HAL_SRAM_DeInit(&hlcd_sram[0]);
@@ -1128,14 +1131,14 @@ static void FMC_BANK1_MspDeInit(SRAM_HandleTypeDef *hsram)
   HAL_GPIO_DeInit(GPIOC, gpio_init_structure.Pin);
 
   /* GPIOD configuration */
-  gpio_init_structure.Pin   = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_8 |\
+  gpio_init_structure.Pin   = GPIO_PIN_0 | GPIO_PIN_1 | GPIO_PIN_4 | GPIO_PIN_5 | GPIO_PIN_8 | \
                               GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_14 | GPIO_PIN_15;
 
   HAL_GPIO_DeInit(GPIOD, gpio_init_structure.Pin);
 
   /* GPIOE configuration */
-  gpio_init_structure.Pin   = GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 |\
-                              GPIO_PIN_12 |GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
+  gpio_init_structure.Pin   = GPIO_PIN_7 | GPIO_PIN_8 | GPIO_PIN_9 | GPIO_PIN_10 | GPIO_PIN_11 | \
+                              GPIO_PIN_12 | GPIO_PIN_13 | GPIO_PIN_14 | GPIO_PIN_15;
   HAL_GPIO_DeInit(GPIOE, gpio_init_structure.Pin);
 
   /* GPIOF configuration */

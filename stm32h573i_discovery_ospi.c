@@ -82,7 +82,8 @@
   * @{
   */
 XSPI_HandleTypeDef hospi_nor[OSPI_NOR_INSTANCES_NUMBER] = {0};
-OSPI_NOR_Ctx_t Ospi_Nor_Ctx[OSPI_NOR_INSTANCES_NUMBER] = {
+OSPI_NOR_Ctx_t Ospi_Nor_Ctx[OSPI_NOR_INSTANCES_NUMBER] =
+{
   {
     OSPI_ACCESS_NONE,
     MX25LM51245G_SPI_MODE,
@@ -139,7 +140,7 @@ int32_t BSP_OSPI_NOR_Init(uint32_t Instance, BSP_OSPI_NOR_Init_t *Init)
   int32_t ret;
   BSP_OSPI_NOR_Info_t pInfo;
   MX_OSPI_InitTypeDef ospi_init;
-  
+
   /* Check if the instance is supported */
   if (Instance >= OSPI_NOR_INSTANCES_NUMBER)
   {
@@ -151,8 +152,8 @@ int32_t BSP_OSPI_NOR_Init(uint32_t Instance, BSP_OSPI_NOR_Init_t *Init)
     if (Ospi_Nor_Ctx[Instance].IsInitialized == OSPI_ACCESS_NONE)
     {
 #if (USE_HAL_XSPI_REGISTER_CALLBACKS == 0)
-       /* Msp OSPI initialization */
-       OSPI_NOR_MspInit(&hospi_nor[Instance]);
+      /* Msp OSPI initialization */
+      OSPI_NOR_MspInit(&hospi_nor[Instance]);
 #else
       /* Register the OSPI MSP Callbacks */
       if (OspiNor_IsMspCbValid[Instance] == 0UL)
@@ -166,13 +167,13 @@ int32_t BSP_OSPI_NOR_Init(uint32_t Instance, BSP_OSPI_NOR_Init_t *Init)
 
       /* Get Flash information of one memory */
       (void)MX25LM51245G_GetFlashInfo(&pInfo);
-      
+
       /* Fill config structure */
       ospi_init.ClockPrescaler = 1;
       ospi_init.MemorySize     = (uint32_t)POSITION_VAL((uint32_t)pInfo.FlashSize);
       ospi_init.SampleShifting = HAL_XSPI_SAMPLE_SHIFT_NONE;
       ospi_init.TransferRate   = (uint32_t)Init->TransferRate;
-      
+
       /* STM32 OSPI interface initialization */
       if (MX_OSPI_NOR_Init(&hospi_nor[Instance], &ospi_init) != HAL_OK)
       {
@@ -182,7 +183,7 @@ int32_t BSP_OSPI_NOR_Init(uint32_t Instance, BSP_OSPI_NOR_Init_t *Init)
       {
         /* OSPI Delay Block enable */
         OSPI1_DLYB_Enable(Instance);
-        
+
         /* OSPI memory reset */
         if (OSPI_NOR_ResetMemory(Instance) != BSP_ERROR_NONE)
         {
@@ -208,7 +209,7 @@ int32_t BSP_OSPI_NOR_Init(uint32_t Instance, BSP_OSPI_NOR_Init_t *Init)
       ret = BSP_ERROR_NONE;
     }
   }
-  
+
   /* Return BSP status */
   return ret;
 }
@@ -592,7 +593,7 @@ int32_t BSP_OSPI_NOR_Erase_Chip(uint32_t Instance)
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }/* Issue Chip erase command */
     else if (MX25LM51245G_ChipErase(&hospi_nor[Instance], Ospi_Nor_Ctx[Instance].InterfaceMode,
-                                     Ospi_Nor_Ctx[Instance].TransferRate) != MX25LM51245G_OK)
+                                    Ospi_Nor_Ctx[Instance].TransferRate) != MX25LM51245G_OK)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -1054,7 +1055,7 @@ static void OSPI_NOR_MspInit(XSPI_HandleTypeDef *hospi)
   OSPI_NOR_D5_GPIO_CLK_ENABLE();
   OSPI_NOR_D6_GPIO_CLK_ENABLE();
   OSPI_NOR_D7_GPIO_CLK_ENABLE();
-  
+
   /* Activate HSLV */
   HAL_GPIO_EnableHighSPeedLowVoltage(OSPI_NOR_CS_GPIO_PORT, OSPI_NOR_CS_PIN);
   HAL_GPIO_EnableHighSPeedLowVoltage(OSPI_NOR_CLK_GPIO_PORT, OSPI_NOR_CLK_PIN);
@@ -1067,7 +1068,7 @@ static void OSPI_NOR_MspInit(XSPI_HandleTypeDef *hospi)
   HAL_GPIO_EnableHighSPeedLowVoltage(OSPI_NOR_D6_GPIO_PORT, OSPI_NOR_D6_PIN);
   HAL_GPIO_EnableHighSPeedLowVoltage(OSPI_NOR_D7_GPIO_PORT, OSPI_NOR_D7_PIN);
   HAL_GPIO_EnableHighSPeedLowVoltage(OSPI_NOR_DQS_GPIO_PORT, OSPI_NOR_DQS_PIN);
-  
+
   /* OctoSPI CS GPIO pin configuration  */
   GPIO_InitStruct.Pin       = OSPI_NOR_CS_PIN;
   GPIO_InitStruct.Mode      = GPIO_MODE_AF_PP;
@@ -1169,7 +1170,7 @@ static int32_t OSPI_NOR_ResetMemory(uint32_t Instance)
   int32_t ret = BSP_ERROR_NONE;
 
   if (MX25LM51245G_ResetEnable(&hospi_nor[Instance], BSP_OSPI_NOR_SPI_MODE,
-                                    BSP_OSPI_NOR_STR_TRANSFER) != MX25LM51245G_OK)
+                               BSP_OSPI_NOR_STR_TRANSFER) != MX25LM51245G_OK)
   {
     ret = BSP_ERROR_COMPONENT_FAILURE;
   }
@@ -1204,8 +1205,12 @@ static int32_t OSPI_NOR_ResetMemory(uint32_t Instance)
     Ospi_Nor_Ctx[Instance].InterfaceMode = BSP_OSPI_NOR_SPI_MODE;    /* After reset H/W back to SPI mode by default */
     Ospi_Nor_Ctx[Instance].TransferRate  = BSP_OSPI_NOR_STR_TRANSFER; /* After reset S/W setting to STR mode        */
 
-    /* After SWreset CMD, wait in case SWReset occurred during erase operation */
-    HAL_Delay(MX25LM51245G_RESET_MAX_TIME);
+    /* Wait SWreset CMD is effective and check that memory is ready */
+    if (MX25LM51245G_AutoPollingMemReady(&hospi_nor[Instance], Ospi_Nor_Ctx[Instance].InterfaceMode,
+                                         Ospi_Nor_Ctx[Instance].TransferRate) != MX25LM51245G_OK)
+    {
+      ret = BSP_ERROR_COMPONENT_FAILURE;
+    }
   }
 
   /* Return BSP status */
@@ -1224,7 +1229,7 @@ static int32_t OSPI_NOR_EnterDOPIMode(uint32_t Instance)
 
   /* Enable write operations */
   if (MX25LM51245G_WriteEnable(&hospi_nor[Instance], Ospi_Nor_Ctx[Instance].InterfaceMode,
-                                    Ospi_Nor_Ctx[Instance].TransferRate) != MX25LM51245G_OK)
+                               Ospi_Nor_Ctx[Instance].TransferRate) != MX25LM51245G_OK)
   {
     ret = BSP_ERROR_COMPONENT_FAILURE;
   }
@@ -1250,9 +1255,6 @@ static int32_t OSPI_NOR_EnterDOPIMode(uint32_t Instance)
   }
   else
   {
-    /* Wait that the configuration is effective and check that memory is ready */
-    HAL_Delay(MX25LM51245G_WRITE_REG_MAX_TIME);
-
     /* Reconfigure the memory type of the peripheral */
     hospi_nor[Instance].Init.MemoryType            = HAL_XSPI_MEMTYPE_MACRONIX;
     hospi_nor[Instance].Init.DelayHoldQuarterCycle = HAL_XSPI_DHQC_ENABLE;
@@ -1298,7 +1300,7 @@ static int32_t OSPI_NOR_EnterSOPIMode(uint32_t Instance)
 
   /* Enable write operations */
   if (MX25LM51245G_WriteEnable(&hospi_nor[Instance], Ospi_Nor_Ctx[Instance].InterfaceMode,
-                                    Ospi_Nor_Ctx[Instance].TransferRate) != MX25LM51245G_OK)
+                               Ospi_Nor_Ctx[Instance].TransferRate) != MX25LM51245G_OK)
   {
     ret = BSP_ERROR_COMPONENT_FAILURE;
   }
@@ -1324,9 +1326,6 @@ static int32_t OSPI_NOR_EnterSOPIMode(uint32_t Instance)
   }
   else
   {
-    /* Wait that the configuration is effective and check that memory is ready */
-    HAL_Delay(MX25LM51245G_WRITE_REG_MAX_TIME);
-
     /* Check Flash busy ? */
     if (MX25LM51245G_AutoPollingMemReady(&hospi_nor[Instance], BSP_OSPI_NOR_OPI_MODE,
                                          BSP_OSPI_NOR_STR_TRANSFER) != MX25LM51245G_OK)
@@ -1365,7 +1364,7 @@ static int32_t OSPI_NOR_ExitOPIMode(uint32_t Instance)
 
   /* Enable write operations */
   if (MX25LM51245G_WriteEnable(&hospi_nor[Instance], Ospi_Nor_Ctx[Instance].InterfaceMode,
-                                    Ospi_Nor_Ctx[Instance].TransferRate) != MX25LM51245G_OK)
+                               Ospi_Nor_Ctx[Instance].TransferRate) != MX25LM51245G_OK)
   {
     ret = BSP_ERROR_COMPONENT_FAILURE;
   }
@@ -1382,9 +1381,6 @@ static int32_t OSPI_NOR_ExitOPIMode(uint32_t Instance)
     }
     else
     {
-      /* Wait that the configuration is effective and check that memory is ready */
-      HAL_Delay(MX25LM51245G_WRITE_REG_MAX_TIME);
-
       if (Ospi_Nor_Ctx[Instance].TransferRate == BSP_OSPI_NOR_DTR_TRANSFER)
       {
         /* Reconfigure the memory type of the peripheral */
@@ -1434,14 +1430,14 @@ static int32_t OSPI_NOR_ExitOPIMode(uint32_t Instance)
 static void OSPI1_DLYB_Enable(uint32_t Instance)
 {
   HAL_XSPI_DLYB_CfgTypeDef  dlyb_cfg;
-  
-  (void)HAL_XSPI_DLYB_GetClockPeriod(&hospi_nor[Instance],&dlyb_cfg);
-  
+
+  (void)HAL_XSPI_DLYB_GetClockPeriod(&hospi_nor[Instance], &dlyb_cfg);
+
   /*when DTR, PhaseSel is divided by 4 (emperic value)*/
-  dlyb_cfg.PhaseSel /=4U;
-  
+  dlyb_cfg.PhaseSel /= 4U;
+
   /*set delay block configuration*/
-  (void)HAL_XSPI_DLYB_SetConfig(&hospi_nor[Instance],&dlyb_cfg);
+  (void)HAL_XSPI_DLYB_SetConfig(&hospi_nor[Instance], &dlyb_cfg);
 }
 
 /**

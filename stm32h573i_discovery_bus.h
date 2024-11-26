@@ -89,7 +89,6 @@ typedef struct
 #endif /* BUS_I2C4_FREQUENCY */
 
 
-
 /**
   * @}
   */

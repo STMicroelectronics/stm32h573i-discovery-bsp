@@ -156,9 +156,9 @@ typedef struct
 #define STM32H573I_DK_BSP_VERSION_SUB2   (uint32_t)(0x02) /*!< [15:8]  sub2 version */
 #define STM32H573I_DK_BSP_VERSION_RC     (uint32_t)(0x00) /*!< [7:0]  release candidate */
 #define STM32H573I_DK_BSP_VERSION        ((STM32H573I_DK_BSP_VERSION_MAIN << 24)\
-                                         |(STM32H573I_DK_BSP_VERSION_SUB1 << 16)\
-                                         |(STM32H573I_DK_BSP_VERSION_SUB2 << 8 )\
-                                         |(STM32H573I_DK_BSP_VERSION_RC))
+                                          |(STM32H573I_DK_BSP_VERSION_SUB1 << 16)\
+                                          |(STM32H573I_DK_BSP_VERSION_SUB2 << 8 )\
+                                          |(STM32H573I_DK_BSP_VERSION_RC))
 
 #define STM32H573I_DK_BSP_BOARD_NAME  "STM32H573I_DK";
 #define STM32H573I_DK_BSP_BOARD_ID    "MB1677C";
@@ -204,7 +204,7 @@ typedef struct
 #define BUTTON_USER_GPIO_PORT                 GPIOC
 #define BUTTON_USER_GPIO_CLK_ENABLE()         __HAL_RCC_GPIOC_CLK_ENABLE()
 #define BUTTON_USER_GPIO_CLK_DISABLE()        __HAL_RCC_GPIOC_CLK_DISABLE()
-#define BUTTON_USER_EXTI_IRQn                 EXTI13_IRQn
+#define BUTTON_USER_EXTI_IRQ                  EXTI13_IRQn
 #define BUTTON_USER_EXTI_LINE                 EXTI_LINE_13
 /**
   * @}

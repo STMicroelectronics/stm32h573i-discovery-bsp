@@ -1715,13 +1715,13 @@ static void PWR_TCPP0203_EventCallback(uint32_t PortNum)
               }
               else
               {
-              if (USBPD_PWR_Port_Status[PortNum].VBUSDetectCallback != NULL)
-              {
-                /* Notify Error thanks to callback */
-                USBPD_PWR_Port_Status[PortNum].VBUSDetectCallback(PortNum, VBUS_NOT_CONNECTED);
+                if (USBPD_PWR_Port_Status[PortNum].VBUSDetectCallback != NULL)
+                {
+                  /* Notify Error thanks to callback */
+                  USBPD_PWR_Port_Status[PortNum].VBUSDetectCallback(PortNum, VBUS_NOT_CONNECTED);
+                }
               }
             }
-          }
             USBPD_PWR_Port_Status[PortNum].LastFaultTick = tickfault;
           }
           if ((flg_reg & TCPP0203_FLAG_OVP_VBUS_SET) == TCPP0203_FLAG_OVP_VBUS_SET)

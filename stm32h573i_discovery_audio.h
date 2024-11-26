@@ -31,12 +31,12 @@ extern "C" {
 #include "../Components/Common/audio.h"
 #ifndef USE_AUDIO_CODEC_CS42L51
 #define USE_AUDIO_CODEC_CS42L51          1U
-#endif
+#endif /* USE_AUDIO_CODEC_CS42L51 */
 
 #if (USE_AUDIO_CODEC_CS42L51 == 1)
 /* Include audio component Driver */
 #include "../Components/cs42l51/cs42l51.h"
-#endif
+#endif /* (USE_AUDIO_CODEC_CS42L51 == 1) */
 
 /** @addtogroup BSP
   * @{
@@ -73,7 +73,7 @@ typedef struct
   uint32_t                    IsMute;              /* Mute state                      */
   uint32_t                    State;               /* Audio OUT State                 */
   uint32_t                    IsMspCallbacksValid; /* Is Msp Callbacks registered     */
-}AUDIO_OUT_Ctx_t;
+} AUDIO_OUT_Ctx_t;
 
 /* Audio in context */
 typedef struct
@@ -86,7 +86,7 @@ typedef struct
   uint32_t  Size;                /* Audio IN record buffer size    */
   uint32_t  Volume;              /* Audio IN volume                */
   uint32_t  State;               /* Audio IN State                 */
-  uint32_t  IsMspCallbacksValid; /* Is Msp Callbacks registered    */  
+  uint32_t  IsMspCallbacksValid; /* Is Msp Callbacks registered    */
 } AUDIO_IN_Ctx_t;
 
 typedef struct
@@ -370,7 +370,7 @@ int32_t           BSP_AUDIO_IN_GetChannelsNbr(uint32_t Instance, uint32_t *Chann
 int32_t           BSP_AUDIO_IN_GetState(uint32_t Instance, uint32_t *State);
 
 /* Specific PDM recodr APIs */
-int32_t BSP_AUDIO_IN_RecordPDM(uint32_t Instance, uint8_t* pBuf, uint32_t NbrOfBytes);
+int32_t BSP_AUDIO_IN_RecordPDM(uint32_t Instance, uint8_t *pBuf, uint32_t NbrOfBytes);
 
 #if (USE_HAL_SAI_REGISTER_CALLBACKS == 1)
 int32_t           BSP_AUDIO_IN_RegisterDefaultMspCallbacks(uint32_t Instance);
@@ -383,7 +383,7 @@ void              BSP_AUDIO_IN_Error_CallBack(uint32_t Instance);
 void              BSP_AUDIO_IN_IRQHandler(uint32_t Instance, uint32_t Device);
 
 HAL_StatusTypeDef MX_SAI1_ClockConfig(SAI_HandleTypeDef *hsai, uint32_t SampleRate);
-HAL_StatusTypeDef MX_SAI1_Init(SAI_HandleTypeDef* hsai, MX_SAI_Config_t *MXConfig);
+HAL_StatusTypeDef MX_SAI1_Init(SAI_HandleTypeDef *hsai, MX_SAI_Config_t *MXConfig);
 /**
   * @}
   */

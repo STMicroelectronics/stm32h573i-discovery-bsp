@@ -94,7 +94,7 @@ static const uint32_t LED_PIN[LED_NBR] = {LED1_PIN,
 
 static GPIO_TypeDef *BUTTON_PORT[BUTTON_NBR] = {BUTTON_USER_GPIO_PORT};
 static const uint16_t BUTTON_PIN[BUTTON_NBR] = {BUTTON_USER_PIN};
-static const IRQn_Type BUTTON_IRQn[BUTTON_NBR] = {BUTTON_USER_EXTI_IRQn};
+static const IRQn_Type BUTTON_IRQn[BUTTON_NBR] = {BUTTON_USER_EXTI_IRQ};
 
 #if (USE_COM_LOG > 0)
 static COM_TypeDef COM_ActiveLogPort = COM1;
@@ -179,7 +179,7 @@ int32_t BSP_LED_Init(Led_TypeDef Led)
   int32_t ret = BSP_ERROR_NONE;
   GPIO_InitTypeDef  gpio_init_structure;
 
-  if((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
+  if ((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -187,23 +187,23 @@ int32_t BSP_LED_Init(Led_TypeDef Led)
   {
     switch (Led)
     {
-    case LED2:
-      /* Enable the LED2 GPIO clock */
-      LED2_GPIO_CLK_ENABLE();
-      break;
-    case LED3:
-      /* Enable the LED3 GPIO clock */
-      LED3_GPIO_CLK_ENABLE();
-      break;
-    case LED4:
-      /* Enable the LED4 GPIO clock */
-      LED4_GPIO_CLK_ENABLE();
-      break;
-    case LED1:
-    default:
-      /* Enable the LED1 GPIO clock */
-      LED1_GPIO_CLK_ENABLE();
-      break;
+      case LED2:
+        /* Enable the LED2 GPIO clock */
+        LED2_GPIO_CLK_ENABLE();
+        break;
+      case LED3:
+        /* Enable the LED3 GPIO clock */
+        LED3_GPIO_CLK_ENABLE();
+        break;
+      case LED4:
+        /* Enable the LED4 GPIO clock */
+        LED4_GPIO_CLK_ENABLE();
+        break;
+      case LED1:
+      default:
+        /* Enable the LED1 GPIO clock */
+        LED1_GPIO_CLK_ENABLE();
+        break;
     }
     /* Configure the GPIO_LED pin */
     gpio_init_structure.Mode = GPIO_MODE_OUTPUT_PP;
@@ -232,7 +232,7 @@ int32_t BSP_LED_DeInit(Led_TypeDef Led)
   int32_t ret = BSP_ERROR_NONE;
   GPIO_InitTypeDef  gpio_init_structure;
 
-  if((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
+  if ((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -261,7 +261,7 @@ int32_t BSP_LED_On(Led_TypeDef Led)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
+  if ((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -287,7 +287,7 @@ int32_t BSP_LED_Off(Led_TypeDef Led)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
+  if ((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -313,7 +313,7 @@ int32_t BSP_LED_Toggle(Led_TypeDef Led)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
+  if ((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -339,13 +339,13 @@ int32_t BSP_LED_GetState(Led_TypeDef Led)
 {
   int32_t ret;
 
-  if((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
+  if ((Led != LED1) && (Led != LED2) && (Led != LED3) && (Led != LED4))
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
   else
   {
-    ret = 1-(int32_t)HAL_GPIO_ReadPin (LED_PORT [Led], (uint16_t)LED_PIN [Led]);
+    ret = 1 - (int32_t)HAL_GPIO_ReadPin(LED_PORT [Led], (uint16_t)LED_PIN [Led]);
   }
 
   return ret;
@@ -587,11 +587,11 @@ int32_t BSP_COM_RegisterDefaultMspCallbacks(COM_TypeDef COM)
     __HAL_UART_RESET_HANDLE_STATE(&hcom_uart[COM]);
 
     /* Register default MspInit/MspDeInit Callback */
-    if(HAL_UART_RegisterCallback(&hcom_uart[COM], HAL_UART_MSPINIT_CB_ID, USART1_MspInit) != HAL_OK)
+    if (HAL_UART_RegisterCallback(&hcom_uart[COM], HAL_UART_MSPINIT_CB_ID, USART1_MspInit) != HAL_OK)
     {
       ret = BSP_ERROR_PERIPH_FAILURE;
     }
-    else if(HAL_UART_RegisterCallback(&hcom_uart[COM], HAL_UART_MSPDEINIT_CB_ID, USART1_MspDeInit) != HAL_OK)
+    else if (HAL_UART_RegisterCallback(&hcom_uart[COM], HAL_UART_MSPDEINIT_CB_ID, USART1_MspDeInit) != HAL_OK)
     {
       ret = BSP_ERROR_PERIPH_FAILURE;
     }

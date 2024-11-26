@@ -134,9 +134,9 @@ int32_t BSP_TS_Init(uint32_t Instance, TS_Init_t *TS_Init)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if((Instance >= TS_INSTANCES_NBR) || (TS_Init->Width == 0U) ||( TS_Init->Width > TS_MAX_WIDTH) ||\
-                         (TS_Init->Height == 0U) ||( TS_Init->Height > TS_MAX_HEIGHT) ||\
-                         (TS_Init->Accuracy > TS_MIN((TS_Init->Width), (TS_Init->Height))))
+  if ((Instance >= TS_INSTANCES_NBR) || (TS_Init->Width == 0U) || (TS_Init->Width > TS_MAX_WIDTH) || \
+      (TS_Init->Height == 0U) || (TS_Init->Height > TS_MAX_HEIGHT) || \
+      (TS_Init->Accuracy > TS_MIN((TS_Init->Width), (TS_Init->Height))))
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -144,7 +144,7 @@ int32_t BSP_TS_Init(uint32_t Instance, TS_Init_t *TS_Init)
   {
     TS_RESET_MspInit();
 
-    if(FT6X06_Probe(Instance) != BSP_ERROR_NONE)
+    if (FT6X06_Probe(Instance) != BSP_ERROR_NONE)
     {
       ret = BSP_ERROR_NO_INIT;
     }
@@ -156,15 +156,15 @@ int32_t BSP_TS_Init(uint32_t Instance, TS_Init_t *TS_Init)
       Ts_Ctx[Instance].Width       = TS_Init->Width;
       Ts_Ctx[Instance].Height      = TS_Init->Height;
       Ts_Ctx[Instance].Accuracy    = TS_Init->Accuracy;
-      if(TS_Init->Orientation == TS_ORIENTATION_LANDSCAPE_ROT180)
+      if (TS_Init->Orientation == TS_ORIENTATION_LANDSCAPE_ROT180)
       {
         Ts_Ctx[Instance].Orientation = TS_SWAP_XY | TS_SWAP_Y;
       }
-      else if(TS_Init->Orientation == TS_ORIENTATION_LANDSCAPE)
+      else if (TS_Init->Orientation == TS_ORIENTATION_LANDSCAPE)
       {
         Ts_Ctx[Instance].Orientation = TS_SWAP_XY | TS_SWAP_X;
       }
-      else if(TS_Init->Orientation == TS_ORIENTATION_PORTRAIT_ROT180)
+      else if (TS_Init->Orientation == TS_ORIENTATION_PORTRAIT_ROT180)
       {
         Ts_Ctx[Instance].Orientation = TS_SWAP_NONE;
       }
@@ -184,7 +184,7 @@ int32_t BSP_TS_Init(uint32_t Instance, TS_Init_t *TS_Init)
         Ts_Ctx[Instance].MaxX = Capabilities.MaxXl;
         Ts_Ctx[Instance].MaxY = Capabilities.MaxYl;
         /* Initialize previous position in order to always detect first touch */
-        for(i = 0; i < TS_TOUCH_NBR; i++)
+        for (i = 0; i < TS_TOUCH_NBR; i++)
         {
           Ts_Ctx[Instance].PrevX[i] = TS_Init->Width + TS_Init->Accuracy + 1U;
           Ts_Ctx[Instance].PrevY[i] = TS_Init->Height + TS_Init->Accuracy + 1U;
@@ -205,13 +205,13 @@ int32_t BSP_TS_DeInit(uint32_t Instance)
 {
   int32_t ret = BSP_ERROR_NONE;
 
-  if(Instance >= TS_INSTANCES_NBR)
+  if (Instance >= TS_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
   else
   {
-    if(Ts_Drv->DeInit(Ts_CompObj[Instance]) < 0)
+    if (Ts_Drv->DeInit(Ts_CompObj[Instance]) < 0)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -269,7 +269,7 @@ int32_t BSP_TS_EnableIT(uint32_t Instance)
   int32_t ret = BSP_ERROR_NONE;
   GPIO_InitTypeDef gpio_init_structure;
 
-  if(Instance >= TS_INSTANCES_NBR)
+  if (Instance >= TS_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -283,17 +283,17 @@ int32_t BSP_TS_EnableIT(uint32_t Instance)
     gpio_init_structure.Mode  = GPIO_MODE_IT_FALLING;
     HAL_GPIO_Init(TS_INT_GPIO_PORT, &gpio_init_structure);
 
-    if(Ts_Drv->EnableIT(Ts_CompObj[Instance]) < 0)
+    if (Ts_Drv->EnableIT(Ts_CompObj[Instance]) < 0)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
     else
     {
-      if(HAL_EXTI_GetHandle(&hts_exti[Instance], TS_EXTI_LINE) != HAL_OK)
+      if (HAL_EXTI_GetHandle(&hts_exti[Instance], TS_EXTI_LINE) != HAL_OK)
       {
         ret = BSP_ERROR_PERIPH_FAILURE;
       }
-      else if(HAL_EXTI_RegisterCallback(&hts_exti[Instance],  HAL_EXTI_COMMON_CB_ID, TS_EXTI_Callback) != HAL_OK)
+      else if (HAL_EXTI_RegisterCallback(&hts_exti[Instance],  HAL_EXTI_COMMON_CB_ID, TS_EXTI_Callback) != HAL_OK)
       {
         ret = BSP_ERROR_PERIPH_FAILURE;
       }
@@ -319,7 +319,7 @@ int32_t BSP_TS_DisableIT(uint32_t Instance)
   int32_t ret = BSP_ERROR_NONE;
   GPIO_InitTypeDef gpio_init_structure;
 
-  if(Instance >= TS_INSTANCES_NBR)
+  if (Instance >= TS_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -332,7 +332,7 @@ int32_t BSP_TS_DisableIT(uint32_t Instance)
     /* Disable the TS in interrupt mode */
     /* In that case the INT output of FT6X06 when new touch is available */
     /* is active on low level and directed on EXTI */
-    if(Ts_Drv->DisableIT(Ts_CompObj[Instance]) < 0)
+    if (Ts_Drv->DisableIT(Ts_CompObj[Instance]) < 0)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
@@ -402,15 +402,15 @@ int32_t BSP_TS_Set_Orientation(uint32_t Instance, uint32_t Orientation)
     }
 
     /* Store orientation on TS context */
-    if(Orientation == TS_ORIENTATION_LANDSCAPE_ROT180)
+    if (Orientation == TS_ORIENTATION_LANDSCAPE_ROT180)
     {
       Ts_Ctx[Instance].Orientation = TS_SWAP_XY | TS_SWAP_Y;
     }
-    else if(Orientation == TS_ORIENTATION_LANDSCAPE)
+    else if (Orientation == TS_ORIENTATION_LANDSCAPE)
     {
       Ts_Ctx[Instance].Orientation = TS_SWAP_XY | TS_SWAP_X;
     }
-    else if(Orientation == TS_ORIENTATION_PORTRAIT_ROT180)
+    else if (Orientation == TS_ORIENTATION_PORTRAIT_ROT180)
     {
       Ts_Ctx[Instance].Orientation = TS_SWAP_NONE;
     }
@@ -439,29 +439,29 @@ int32_t BSP_TS_Set_Orientation(uint32_t Instance, uint32_t Orientation)
 int32_t BSP_TS_Get_Orientation(uint32_t Instance, uint32_t *Orientation)
 {
   int32_t status = BSP_ERROR_NONE;
-  
+
   if ((Instance >= TS_INSTANCES_NBR) || (Orientation == NULL))
   {
     status = BSP_ERROR_WRONG_PARAM;
   }
   else
   {
-    /* Get orientation from TS context */    
-    if(Ts_Ctx[Instance].Orientation == (TS_SWAP_XY | TS_SWAP_Y))
+    /* Get orientation from TS context */
+    if (Ts_Ctx[Instance].Orientation == (TS_SWAP_XY | TS_SWAP_Y))
     {
       *Orientation = TS_ORIENTATION_LANDSCAPE_ROT180;
     }
-    else if(Ts_Ctx[Instance].Orientation == (TS_SWAP_XY | TS_SWAP_X))
+    else if (Ts_Ctx[Instance].Orientation == (TS_SWAP_XY | TS_SWAP_X))
     {
       *Orientation = TS_ORIENTATION_LANDSCAPE;
     }
-    else if(Ts_Ctx[Instance].Orientation == TS_SWAP_NONE)
+    else if (Ts_Ctx[Instance].Orientation == TS_SWAP_NONE)
     {
       *Orientation = TS_ORIENTATION_PORTRAIT_ROT180;
     }
     else
     {
-      if(Ts_Ctx[Instance].Orientation == (TS_SWAP_Y | TS_SWAP_X))
+      if (Ts_Ctx[Instance].Orientation == (TS_SWAP_Y | TS_SWAP_X))
       {
         *Orientation = TS_ORIENTATION_PORTRAIT;
       }
@@ -480,10 +480,12 @@ int32_t BSP_TS_Get_Orientation(uint32_t Instance, uint32_t *Orientation)
 int32_t BSP_TS_GetState(uint32_t Instance, TS_State_t *TS_State)
 {
   int32_t ret = BSP_ERROR_NONE;
-  uint32_t x_oriented, y_oriented;
-  uint32_t x_diff, y_diff;
+  uint32_t x_oriented;
+  uint32_t y_oriented;
+  uint32_t x_diff;
+  uint32_t y_diff;
 
-  if(Instance >= TS_INSTANCES_NBR)
+  if (Instance >= TS_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -492,27 +494,27 @@ int32_t BSP_TS_GetState(uint32_t Instance, TS_State_t *TS_State)
     FT6X06_State_t state;
 
     /* Get each touch coordinates */
-    if(Ts_Drv->GetState(Ts_CompObj[Instance], &state) < 0)
+    if (Ts_Drv->GetState(Ts_CompObj[Instance], &state) < 0)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }/* Check and update the number of touches active detected */
-    else if(state.TouchDetected != 0U)
+    else if (state.TouchDetected != 0U)
     {
       x_oriented = state.TouchX;
       y_oriented = state.TouchY;
 
-      if((Ts_Ctx[Instance].Orientation & TS_SWAP_XY) == TS_SWAP_XY)
+      if ((Ts_Ctx[Instance].Orientation & TS_SWAP_XY) == TS_SWAP_XY)
       {
         x_oriented = state.TouchY;
         y_oriented = state.TouchX;
       }
 
-      if((Ts_Ctx[Instance].Orientation & TS_SWAP_X) == TS_SWAP_X)
+      if ((Ts_Ctx[Instance].Orientation & TS_SWAP_X) == TS_SWAP_X)
       {
         x_oriented = Ts_Ctx[Instance].MaxX - x_oriented - 1UL;
       }
 
-      if((Ts_Ctx[Instance].Orientation & TS_SWAP_Y) == TS_SWAP_Y)
+      if ((Ts_Ctx[Instance].Orientation & TS_SWAP_Y) == TS_SWAP_Y)
       {
         y_oriented = Ts_Ctx[Instance].MaxY - y_oriented;
       }
@@ -524,13 +526,13 @@ int32_t BSP_TS_GetState(uint32_t Instance, TS_State_t *TS_State)
       TS_State->TouchDetected = state.TouchDetected;
 
       /* Check accuracy */
-      x_diff = (TS_State->TouchX > Ts_Ctx[Instance].PrevX[0])?
-        (TS_State->TouchX - Ts_Ctx[Instance].PrevX[0]):
-        (Ts_Ctx[Instance].PrevX[0] - TS_State->TouchX);
+      x_diff = (TS_State->TouchX > Ts_Ctx[Instance].PrevX[0]) ?
+               (TS_State->TouchX - Ts_Ctx[Instance].PrevX[0]) :
+               (Ts_Ctx[Instance].PrevX[0] - TS_State->TouchX);
 
-      y_diff = (TS_State->TouchY > Ts_Ctx[Instance].PrevY[0])?
-        (TS_State->TouchY - Ts_Ctx[Instance].PrevY[0]):
-        (Ts_Ctx[Instance].PrevY[0] - TS_State->TouchY);
+      y_diff = (TS_State->TouchY > Ts_Ctx[Instance].PrevY[0]) ?
+               (TS_State->TouchY - Ts_Ctx[Instance].PrevY[0]) :
+               (Ts_Ctx[Instance].PrevY[0] - TS_State->TouchY);
 
 
       if ((x_diff > Ts_Ctx[Instance].Accuracy) || (y_diff > Ts_Ctx[Instance].Accuracy))
@@ -567,10 +569,12 @@ int32_t BSP_TS_Get_MultiTouchState(uint32_t Instance, TS_MultiTouch_State_t *TS_
 {
   int32_t ret = BSP_ERROR_NONE;
   uint32_t index;
-  uint32_t x_oriented, y_oriented;
-  uint32_t x_diff, y_diff;
+  uint32_t x_oriented;
+  uint32_t y_oriented;
+  uint32_t x_diff;
+  uint32_t y_diff;
 
-  if(Instance >= TS_INSTANCES_NBR)
+  if (Instance >= TS_INSTANCES_NBR)
   {
     ret = BSP_ERROR_WRONG_PARAM;
   }
@@ -579,32 +583,32 @@ int32_t BSP_TS_Get_MultiTouchState(uint32_t Instance, TS_MultiTouch_State_t *TS_
     FT6X06_MultiTouch_State_t state;
 
     /* Get each touch coordinates */
-    if(Ts_Drv->GetMultiTouchState(Ts_CompObj[Instance], &state) < 0)
+    if (Ts_Drv->GetMultiTouchState(Ts_CompObj[Instance], &state) < 0)
     {
       ret = BSP_ERROR_COMPONENT_FAILURE;
     }
     else
     {
       /* Check and update the number of touches active detected */
-      if(state.TouchDetected != 0U)
+      if (state.TouchDetected != 0U)
       {
-        for(index = 0; index < state.TouchDetected; index++)
+        for (index = 0; index < state.TouchDetected; index++)
         {
           x_oriented = state.TouchX[index];
           y_oriented = state.TouchY[index];
 
-          if((Ts_Ctx[Instance].Orientation & TS_SWAP_XY) == TS_SWAP_XY)
+          if ((Ts_Ctx[Instance].Orientation & TS_SWAP_XY) == TS_SWAP_XY)
           {
             x_oriented = state.TouchY[index];
             y_oriented = state.TouchX[index];
           }
 
-          if((Ts_Ctx[Instance].Orientation & TS_SWAP_X) == TS_SWAP_X)
+          if ((Ts_Ctx[Instance].Orientation & TS_SWAP_X) == TS_SWAP_X)
           {
             x_oriented = Ts_Ctx[Instance].MaxX - state.TouchX[index] - 1UL;
           }
 
-          if((Ts_Ctx[Instance].Orientation & TS_SWAP_Y) == TS_SWAP_Y)
+          if ((Ts_Ctx[Instance].Orientation & TS_SWAP_Y) == TS_SWAP_Y)
           {
             y_oriented = Ts_Ctx[Instance].MaxY - state.TouchY[index];
           }
@@ -616,12 +620,12 @@ int32_t BSP_TS_Get_MultiTouchState(uint32_t Instance, TS_MultiTouch_State_t *TS_
           TS_State->TouchDetected = state.TouchDetected;
 
           /* Check accuracy */
-          x_diff = (TS_State->TouchX[index] > Ts_Ctx[Instance].PrevX[index])?
-                   (TS_State->TouchX[index] - Ts_Ctx[Instance].PrevX[index]):
+          x_diff = (TS_State->TouchX[index] > Ts_Ctx[Instance].PrevX[index]) ?
+                   (TS_State->TouchX[index] - Ts_Ctx[Instance].PrevX[index]) :
                    (Ts_Ctx[Instance].PrevX[index] - TS_State->TouchX[index]);
 
-          y_diff = (TS_State->TouchY[index] > Ts_Ctx[Instance].PrevY[index])?
-                   (TS_State->TouchY[index] - Ts_Ctx[Instance].PrevY[index]):
+          y_diff = (TS_State->TouchY[index] > Ts_Ctx[Instance].PrevY[index]) ?
+                   (TS_State->TouchY[index] - Ts_Ctx[Instance].PrevY[index]) :
                    (Ts_Ctx[Instance].PrevY[index] - TS_State->TouchY[index]);
 
           if ((x_diff > Ts_Ctx[Instance].Accuracy) || (y_diff > Ts_Ctx[Instance].Accuracy))
@@ -640,7 +644,7 @@ int32_t BSP_TS_Get_MultiTouchState(uint32_t Instance, TS_MultiTouch_State_t *TS_
       else
       {
         TS_State->TouchDetected = 0U;
-        for(index = 0; index < TS_TOUCH_NBR; index++)
+        for (index = 0; index < TS_TOUCH_NBR; index++)
         {
           TS_State->TouchX[index] = Ts_Ctx[Instance].PrevX[index];
           TS_State->TouchY[index] = Ts_Ctx[Instance].PrevY[index];
@@ -662,10 +666,10 @@ int32_t BSP_TS_Get_MultiTouchState(uint32_t Instance, TS_MultiTouch_State_t *TS_
   */
 int32_t BSP_TS_GestureConfig(uint32_t Instance, const TS_Gesture_Config_t *GestureConfig)
 {
-  UNUSED(Instance);   
+  UNUSED(Instance);
   UNUSED(GestureConfig);
 
-    /* Feature not supported */
+  /* Feature not supported */
   return BSP_ERROR_FEATURE_NOT_SUPPORTED;
 }
 
@@ -677,10 +681,10 @@ int32_t BSP_TS_GestureConfig(uint32_t Instance, const TS_Gesture_Config_t *Gestu
   */
 int32_t BSP_TS_GetGestureId(uint32_t Instance, const uint32_t *GestureId)
 {
-  UNUSED(Instance);    
+  UNUSED(Instance);
   UNUSED(GestureId);
 
-    /* Feature not supported */
+  /* Feature not supported */
   return BSP_ERROR_FEATURE_NOT_SUPPORTED;
 }
 #endif /* (USE_TS_GESTURE > 0) */

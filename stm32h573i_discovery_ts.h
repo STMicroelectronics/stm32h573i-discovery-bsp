@@ -49,14 +49,14 @@ extern "C" {
 
 #ifndef USE_TS_MULTI_TOUCH
 #define USE_TS_MULTI_TOUCH          1U
-#endif
+#endif /* USE_TS_MULTI_TOUCH */
 #ifndef USE_TS_GESTURE
 #define USE_TS_GESTURE              1U
-#endif
+#endif /* USE_TS_GESTURE */
 
 #ifndef TS_TOUCH_NBR
 #define TS_TOUCH_NBR                2U
-#endif
+#endif /* TS_TOUCH_NBR */
 
 /* TS instances */
 #define TS_INSTANCES_NBR 1U
@@ -75,7 +75,7 @@ extern "C" {
 #define TS_ORIENTATION_LANDSCAPE_ROT180  1U
 #define TS_ORIENTATION_PORTRAIT          2U
 #define TS_ORIENTATION_LANDSCAPE         3U
-    
+
 /* TS I2C address */
 #define TS_I2C_ADDRESS              0x70U
 
